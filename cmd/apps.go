@@ -46,7 +46,6 @@ var manifestPath string
 
 var targetNamespace string = os.Getenv("ORG") + "-" + os.Getenv("SPACE")
 
-// rabbitmqCmd represents the rabbitmq command
 var pushCmd = &cobra.Command{
 	Use:   "push",
 	Short: "ksm application push",
@@ -217,116 +216,8 @@ var pushCmd = &cobra.Command{
 			fmt.Printf("Created deployment %q.\n", deploymentCreationResult.GetObjectMeta().GetName())
 
 		}
-		// // fmt.Println("Got the following flags", connection, producers, consumers, payloadSize, queueName)
-		// client := amqp.NewMessagingClient(connection)
-		// serializedPayload := make([]byte, payloadSize)
-
-		// if declarationJson != "" {
-		// 	content, err := ioutil.ReadFile(declarationJson)
-		// 	if err != nil {
-		// 		log.Fatal("Error when opening file: ", err)
-		// 	}
-
-		// 	declaration, err := serialization.Deserialize[DeclarationJson](content)
-		// 	if err != nil {
-		// 		log.Fatal("Error deserializing file: ", err)
-		// 	}
-
-		// 	for i := 1; i <= consumers; i++ {
-		// 		wg.Add(1)
-		// 		SetupComplexConsumer(client, declaration)
-		// 	}
-
-		// 	for i := 1; i <= producers; i++ {
-		// 		// fmt.Println("Setting up producer")
-		// 		wg.Add(1)
-		// 		go SetupComplexProducer(client, serializedPayload, declaration)
-		// 	}
-
-		// } else {
-		// 	for i := 1; i <= consumers; i++ {
-		// 		wg.Add(1)
-		// 		SetupSimpleConsumer(client)
-		// 	}
-
-		// 	for i := 1; i <= producers; i++ {
-		// 		// fmt.Println("Setting up producer")
-		// 		wg.Add(1)
-		// 		go SetupSimpleProducer(client, serializedPayload)
-		// 	}
-		// }
-
-		// wg.Wait()
 	},
 }
-
-// func SetupSimpleProducer(client *amqp.MessagingClient, payload []byte) {
-// 	for {
-// 		// fmt.Println("publishing")
-// 		err := client.PublishOnQueue(payload, queueName)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-// 	}
-// }
-
-// func SetupComplexProducer(client *amqp.MessagingClient, payload []byte, declaration DeclarationJson) {
-// 	for {
-// 		// fmt.Println("publishing")
-// 		exchange := amqp.Exchange{
-// 			ExchangeName: declaration.ExchangeName,
-// 			ExchangeType: declaration.ExchangeType,
-// 			Durable:      declaration.Durable,
-// 			AutoDelete:   declaration.AutoDelete,
-// 			Internal:     declaration.Internal,
-// 			NoWait:       declaration.NoWait,
-// 			Arguments:    declaration.Arguments,
-// 		}
-// 		queue := amqp.Queue{
-// 			QueueName:  declaration.Queue.QueueName,
-// 			Durable:    declaration.Queue.Durable,
-// 			AutoDelete: declaration.Queue.AutoDelete,
-// 			Exclusive:  declaration.Queue.Exclusive,
-// 			NoWait:     declaration.Queue.NoWait,
-// 			Arguments:  declaration.Queue.Arguments,
-// 		}
-// 		err := client.Publish(payload, &exchange, &queue)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-// 	}
-// }
-
-// func SetupSimpleConsumer(client *amqp.MessagingClient) {
-// 	err := client.SubscribeToQueue(queueName, "Load Tester", func(d amqp091.Delivery) {})
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// }
-
-// func SetupComplexConsumer(client *amqp.MessagingClient, declaration DeclarationJson) {
-// 	exchange := amqp.Exchange{
-// 		ExchangeName: declaration.ExchangeName,
-// 		ExchangeType: declaration.ExchangeType,
-// 		Durable:      declaration.Durable,
-// 		AutoDelete:   declaration.AutoDelete,
-// 		Internal:     declaration.Internal,
-// 		NoWait:       declaration.NoWait,
-// 		Arguments:    declaration.Arguments,
-// 	}
-// 	queue := amqp.Queue{
-// 		QueueName:  declaration.Queue.QueueName,
-// 		Durable:    declaration.Queue.Durable,
-// 		AutoDelete: declaration.Queue.AutoDelete,
-// 		Exclusive:  declaration.Queue.Exclusive,
-// 		NoWait:     declaration.Queue.NoWait,
-// 		Arguments:  declaration.Queue.Arguments,
-// 	}
-// 	err := client.Subscribe(&exchange, &queue, "Load Tester", func(d amqp091.Delivery) {})
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// }
 
 func init() {
 	rootCmd.AddCommand(pushCmd)
