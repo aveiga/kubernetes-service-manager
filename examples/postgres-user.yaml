@@ -1,0 +1,15 @@
+---
+applications:
+- name: postgres-user
+  instances: 2
+  memory: 128M
+  timeout: 60
+  image: tbd
+  routes:
+    - route: this.is.a.route.pt
+  services:
+    - service: postgres
+      instances:
+        - instance: postgres-user-db
+  env:
+    MESSAGE: "Hello, André!"
